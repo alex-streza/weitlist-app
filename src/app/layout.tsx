@@ -22,9 +22,14 @@ const offbit = localFont({
 });
 
 export const metadata = {
-  title: "Weitlist",
-  description: "Work on your app not on your waitlist",
+  title: "Weitlist | Work on your app development not on your waitlist",
+  description:
+    "Accelerate your app's progress effortlessly with Weitlist - freeing you from waitlist management to focus on crafting your application's success story. Say goodbye to waitlist hassles and hello to seamless app development.",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
+  openGraph: {
+    images: ["https://weitlist.me/og.png"],
+    title: "Home",
+  },
 };
 
 export default function RootLayout({
