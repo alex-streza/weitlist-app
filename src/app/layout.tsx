@@ -1,8 +1,16 @@
 import "~/styles/globals.css";
 
-import { cookies } from "next/headers";
 import localFont from "next/font/local";
+import { DM_Sans } from "next/font/google";
+import { cookies } from "next/headers";
 import { TRPCReactProvider } from "~/trpc/react";
+import { ClientLayout } from "./_components/client-layout";
+
+const dm_sans = DM_Sans({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-dm-sans",
+});
 
 // Font files can be colocated inside of `app`
 const offbit = localFont({
@@ -19,6 +27,7 @@ const offbit = localFont({
     },
   ],
   display: "swap",
+  variable: "--font-offbit",
 });
 
 export const metadata = {
@@ -26,6 +35,7 @@ export const metadata = {
   description:
     "Accelerate your app's progress effortlessly with Weitlist - freeing you from waitlist management to focus on crafting your application's success story. Say goodbye to waitlist hassles and hello to seamless app development.",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
+  metadataBase: "https://weitlist.me",
   openGraph: {
     images: ["https://weitlist.me/og.png"],
     title: "Home",
@@ -38,10 +48,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark">
-      <body className={`${offbit.className}`}>
+    <html lang="en" className={`dark ${offbit.variable} ${dm_sans.variable}`}>
+      <body>
         <TRPCReactProvider cookies={cookies().toString()}>
-          {children}
+          <ClientLayout>
+            <main className="relative h-screen w-screen overflow-hidden bg-gray-950 text-white">
+              {children}
+            </main>
+          </ClientLayout>
         </TRPCReactProvider>
       </body>
     </html>

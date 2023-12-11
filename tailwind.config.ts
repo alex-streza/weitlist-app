@@ -65,17 +65,13 @@ module.exports = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: 0 },
         },
-        "rotate-words-6": {
-          "0%": { transform: "translateY(-25%)" },
-          to: { transform: "translateY(0%)" },
-        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "rotate-words-6": "rotate-words-6 6s linear infinite",
       },
       fontFamily: {
+        sans: ["var(--font-dm-sans)"],
         serif: ["var(--font-offbit)"],
       },
     },

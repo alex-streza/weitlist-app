@@ -1,8 +1,9 @@
+"use client";
+import { signIn } from "next-auth/react";
 import Image from "next/image";
 import Script from "next/script";
 import { Button } from "~/components/ui/button";
-import { Input } from "~/components/ui/input";
-import { Label } from "~/components/ui/label";
+import { env } from "~/env";
 
 const features = [
   "JOIN WAITLIST",
@@ -23,9 +24,9 @@ const features = [
   "ANALYTICS",
 ];
 
-export default async function Home() {
+export default function Home() {
   return (
-    <main className="relative h-screen w-screen overflow-hidden bg-gray-950 p-5 text-white md:px-[100px]">
+    <div className="p-5 px-[100px]">
       <div
         id="canvasContainer"
         data-grid="30"
@@ -36,7 +37,7 @@ export default async function Home() {
         <div className="pointer-events-none invisible absolute h-full w-full">
           <Image
             src="/bg.webp"
-            className=" object-cover"
+            className="object-cover "
             layout="fill"
             alt="A set of cubes in the background"
           />
@@ -54,22 +55,20 @@ export default async function Home() {
           <h1 className="mb-3 mt-4 font-serif text-[60px] font-bold leading-[60px] md:mt-6 md:text-[100px] md:leading-[90px]">
             Work on your app not on your waitlist
           </h1>
-          <p className="font-sans text-neutral-50">
+          <p className="mb-5 font-sans text-neutral-50">
             Get a fully functioning waitlist feature in 5 minutes not 5 days.
-            <br />
-            Shift your attention from waitlists to seamless app evolution
-            effortlessly.
           </p>
-          <p className="mt-4 font-sans text-lg font-bold">
-            Wailist coming SOON!
-          </p>
-          {/* <form className="mt-3 max-w-xs">
-            <Label>Join the waitlist</Label>
-            <div className="mt-1 flex flex-col gap-4 md:flex-row md:gap-3">
-              <Input placeholder="Enter your supa' e-mail" />
-              <Button className="w-full md:w-fit">Join</Button>
-            </div>
-          </form> */}
+          {env.NEXT_PUBLIC_LAUNCHED !== "false" && (
+            <Button
+              onClick={() =>
+                signIn("github", {
+                  callbackUrl: `${env.NEXT_PUBLIC_FRONTEND_URL}/admin/entries`,
+                })
+              }
+            >
+              Get started with GitHub
+            </Button>
+          )}
         </div>
       </section>
 
@@ -692,6 +691,6 @@ export default async function Home() {
           `,
         }}
       ></Script>
-    </main>
+    </div>
   );
 }

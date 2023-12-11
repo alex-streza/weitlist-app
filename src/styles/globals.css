@@ -64,14 +64,12 @@
     --input: 0 0% 30%;
     --ring: 0 0% 83.1%;
   }
-}
 
-@layer base {
   * {
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background font-serif text-foreground;
   }
 }
 
