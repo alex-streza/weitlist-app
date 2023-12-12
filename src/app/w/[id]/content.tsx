@@ -22,9 +22,9 @@ export const Content = ({ id }: { id: string }) => {
       onSubmit={(e) => {
         e.preventDefault();
         join.mutate({
-          waitlistId: id,
-          email,
+          refId: id,
           source: "WEB",
+          email,
         });
       }}
     >

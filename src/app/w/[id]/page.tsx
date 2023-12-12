@@ -7,7 +7,5 @@ export default function WaitlistPage({
     id: string;
   };
 }) {
-  console.log("params", params);
-
   return <Content id={params.id} />;
 }

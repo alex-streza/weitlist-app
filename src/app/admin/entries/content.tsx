@@ -3,12 +3,12 @@
 "use client";
 import { useAtomValue } from "jotai";
 import { useState } from "react";
-import { Input } from "~/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { selectedWaitlistAtom } from "~/lib/store";
 import { api } from "~/trpc/react";
 import { columns } from "./columns";
 import { DataTable } from "./data-table";
+import { useDebounce } from "usehooks-ts";
 
 export const Content = () => {
   const [filters, setFilters] = useState({
@@ -16,16 +16,27 @@ export const Content = () => {
     type: "JOINED",
   });
 
+  const debouncedFilters = useDebounce(filters, 500);
+
   const selectedWaitlist = useAtomValue(selectedWaitlistAtom);
 
-  const { data } = api.admin.getWaitlistEntries.useQuery({
+  const { data, isLoading, isFetched } = api.admin.getWaitlistEntries.useQuery({
     id: selectedWaitlist?.id,
     pagination: {
       page: 0,
       perPage: 10,
     },
-    ...filters,
+    ...debouncedFilters,
   });
+
+  console.log("isLoading", isLoading);
+
+  const handleSearch = (search: string) => {
+    setFilters({
+      ...filters,
+      search,
+    });
+  };
 
   return (
     <div className="w-full pl-56 pr-5 pt-10">
@@ -56,7 +67,9 @@ export const Content = () => {
           </TabsTrigger> */}
         </TabsList>
         <TabsContent value="joined">
-          {data && <DataTable columns={columns} data={data} />}
+          {!isLoading && isFetched && (
+            <DataTable columns={columns} data={data} onSearch={handleSearch} />
+          )}
         </TabsContent>
         {/* <TabsContent value="invited">
           <Input placeholder="Filter by e-mail address, source, invite code or any other field" />

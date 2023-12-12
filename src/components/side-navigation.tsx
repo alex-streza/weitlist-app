@@ -39,22 +39,23 @@ const items = [
     icon: <UsersThree />,
   },
   {
-    label: "Referral codes",
-    icon: <IdentificationCard />,
-  },
-  {
     label: "Integrations",
     icon: <PlugCharging />,
   },
   {
-    label: "Upgrade - soon",
-    icon: <Diamond />,
+    label: "Referral codes",
+    icon: <IdentificationCard />,
     disabled: true,
   },
   {
-    label: "Settings",
-    icon: <GearSix />,
+    label: "Upgrade",
+    icon: <Diamond />,
+    disabled: true,
   },
+  // {
+  //   label: "Settings",
+  //   icon: <GearSix />,
+  // },
 ];
 
 export const SideNavigation = ({
@@ -106,7 +107,7 @@ export const SideNavigation = ({
           </SelectItem>
         </SelectContent>
       </Select>
-      <NavigationMenuList className="h-full flex-col items-start gap-1 space-x-0">
+      <NavigationMenuList className="h-full w-[180px] flex-col items-start gap-1 space-x-0">
         {items.map(({ label, icon, disabled }, index) => (
           <NavigationMenuItem
             key={index}

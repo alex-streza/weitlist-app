@@ -39,11 +39,13 @@ import { selectedWaitlistAtom } from "~/lib/store";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  onSearch: (search: string) => void;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  onSearch,
 }: DataTableProps<TData, TValue>) {
   const [copied, setCopied] = useState(false);
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -85,6 +87,7 @@ export function DataTable<TData, TValue>({
           <Input
             placeholder="Filter by e-mail address, source, invite code or any other field"
             className="w-full"
+            onChange={(ev) => onSearch(ev.target.value)}
           />
           <MagnifyingGlass className="absolute right-4 top-3 text-neutral-500" />
         </div>
