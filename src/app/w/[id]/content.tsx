@@ -1,6 +1,7 @@
 "use client";
 
 import { Spinner } from "@phosphor-icons/react";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
@@ -9,6 +10,9 @@ import { api } from "~/trpc/react";
 
 export const Content = ({ id }: { id: string }) => {
   const [email, setEmail] = useState("");
+
+  const searchParams = useSearchParams();
+  const referralCode = searchParams.get("ref");
 
   const join = api.waitlist.join.useMutation({
     onSuccess: () => setEmail(""),
@@ -23,7 +27,8 @@ export const Content = ({ id }: { id: string }) => {
         e.preventDefault();
         join.mutate({
           refId: id,
-          source: "WEB",
+          source: window.location.origin,
+          referralCode: referralCode ?? undefined,
           email,
         });
       }}

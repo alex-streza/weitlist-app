@@ -1,3 +1,2 @@
 -- AlterTable
-ALTER TABLE "Account" ADD COLUMN     "refresh_token_expires_in" INTEGER;
-
+ALTER TABLE "User" ADD COLUMN     "selectedWaitlistId" TEXT;

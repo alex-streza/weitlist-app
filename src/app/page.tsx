@@ -1,4 +1,5 @@
 "use client";
+import { GithubLogo } from "@phosphor-icons/react";
 import { signIn } from "next-auth/react";
 import Image from "next/image";
 import Script from "next/script";
@@ -26,7 +27,7 @@ const features = [
 
 export default function Home() {
   return (
-    <div className="p-5 px-[100px]">
+    <div className="p-5 md:px-[100px]">
       <div
         id="canvasContainer"
         data-grid="30"
@@ -46,7 +47,7 @@ export default function Home() {
       <div className="fixed left-0 top-0 h-screen w-screen bg-opacity-10 bg-gradient-to-br from-neutral-950 via-neutral-950/30 to-neutral-950/0"></div>
       <section className="relative z-10 max-w-2xl">
         <nav>
-          <span className="text-5xl tracking-[-3%]">Weitlist</span>
+          <span className="font-serif text-5xl tracking-[-3%]">Weitlist</span>
         </nav>
         <div className="mt-16">
           <span className="shadow-[0px 0px 10px rgba(0,0,0,0.5)] neon border border-green-300 px-3 py-1.5 text-base font-bold">
@@ -67,6 +68,7 @@ export default function Home() {
               }
             >
               Get started with GitHub
+              <GithubLogo weight="fill" size={20} />
             </Button>
           )}
         </div>

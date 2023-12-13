@@ -2,16 +2,14 @@
 
 import {
   Diamond,
-  GearSix,
   IdentificationCard,
   PlugCharging,
+  Plus,
   SignOut,
   UsersThree,
 } from "@phosphor-icons/react";
-import { useAtom } from "jotai";
 import { signOut } from "next-auth/react";
 import { usePathname } from "next/navigation";
-import { selectedWaitlistAtom } from "~/lib/store";
 import { cn } from "~/lib/utils";
 import type { RouterOutputs } from "~/trpc/shared";
 import { Logo } from "./logo";
@@ -28,7 +26,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
-import { api } from "~/trpc/react";
+import { useWaitlists } from "~/lib/use-waitlists";
+import Link from "next/link";
 
 const navItemClassName =
   "hover:bg-muted transition-all duration-200 w-full rounded-lg";
@@ -63,34 +62,31 @@ export const SideNavigation = ({
 }: {
   initialData: RouterOutputs["admin"]["getWaitlists"];
 }) => {
-  const { data: waitlists } = api.admin.getWaitlists.useQuery(undefined, {
-    initialData,
-  });
+  const { waitlists, selectedWaitlist, createWaitlist, selectWaitlist } =
+    useWaitlists(initialData);
 
   const pathname = usePathname();
 
-  const [selectedWaitlist, selectWaitlist] = useAtom(selectedWaitlistAtom);
-
-  const createWaitlist = api.admin.createWaitlist.useMutation({
-    onSuccess: (waitlist) => {
-      selectWaitlist(waitlist);
-    },
-  });
-
   const handleCreateWaitlist = () => {
     createWaitlist.mutate({
-      name: "New waitlist",
+      name: "New waitlist " + (waitlists?.length ?? 0),
     });
   };
 
   return (
     <NavigationMenu className="fixed left-0 top-0 h-screen w-fit flex-col justify-start gap-8 bg-neutral-900 px-2 py-10 font-sans">
-      <Logo />
+      <Link href="/" title="go to home page">
+        <Logo />
+      </Link>
       <Select
         value={selectedWaitlist?.id}
         disabled={createWaitlist.isLoading}
         onValueChange={(id) =>
-          selectWaitlist(waitlists?.filter((w) => w.id === id)[0])
+          id === "new"
+            ? handleCreateWaitlist()
+            : selectWaitlist.mutate({
+                id,
+              })
         }
       >
         <SelectTrigger className="w-[180px]">
@@ -102,7 +98,8 @@ export const SideNavigation = ({
               {waitlist.name}
             </SelectItem>
           ))}
-          <SelectItem value="new" onClick={handleCreateWaitlist}>
+          <SelectItem value="new" className="font-bold">
+            <Plus className="absolute left-2 top-2" size={16} weight="bold" />
             New waitlist
           </SelectItem>
         </SelectContent>

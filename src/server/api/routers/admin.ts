@@ -25,6 +25,62 @@ export const adminRouter = createTRPCRouter({
 
       return waitlist;
     }),
+  editWaitlist: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        name: z.string(),
+        websiteURL: z.string().optional(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const waitlist = await ctx.db.waitlist.update({
+        data: {
+          ...input,
+        },
+        where: {
+          userId: ctx.session.user.id,
+          id: input.id,
+        },
+      });
+
+      return waitlist;
+    }),
+  deleteEntries: protectedProcedure
+    .input(
+      z.object({
+        ids: z.number().array(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const entries = await ctx.db.entry.deleteMany({
+        where: {
+          id: {
+            in: input.ids,
+          },
+        },
+      });
+
+      return entries;
+    }),
+  selectWaitlist: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const user = await ctx.db.user.update({
+        data: {
+          selectedWaitlistId: input.id,
+        },
+        where: {
+          id: ctx.session.user.id,
+        },
+      });
+
+      return user;
+    }),
   getWaitlist: protectedProcedure
     .input(
       z.object({
@@ -46,9 +102,15 @@ export const adminRouter = createTRPCRouter({
       where: {
         userId: ctx.session.user.id,
       },
+      include: {
+        user: true,
+      },
     });
 
-    return waitlists;
+    return waitlists.map((waitlist) => ({
+      ...waitlist,
+      selected: waitlist.user.selectedWaitlistId === waitlist.id,
+    }));
   }),
   getWaitlistEntries: protectedProcedure
     .input(
@@ -99,6 +161,9 @@ export const adminRouter = createTRPCRouter({
           },
           take: perPage,
           skip: perPage * page,
+          include: {
+            referees: true,
+          },
         });
 
         return entries;

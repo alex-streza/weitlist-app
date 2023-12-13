@@ -69,7 +69,12 @@
     @apply border-border;
   }
   body {
-    @apply bg-background font-serif text-foreground;
+    @apply bg-background font-sans text-foreground;
+  }
+
+  h1,
+  h2 {
+    @apply font-serif;
   }
 }
 
@@ -96,4 +101,13 @@
     0 0 92px #0fa,
     0 0 102px #0fa,
     0 0 151px #0fa;
+}
+
+.hash-gray {
+  background: repeating-linear-gradient(
+    45deg,
+    hsl(0 0% 32%) 1px,
+    transparent 2px,
+    transparent 10px
+  );
 }
