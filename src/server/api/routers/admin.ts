@@ -6,6 +6,12 @@ import {
   publicProcedure,
 } from "~/server/api/trpc";
 
+export const editWaitlistSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  websiteURL: z.string().optional(),
+});
+
 export const adminRouter = createTRPCRouter({
   createWaitlist: protectedProcedure
     .input(
@@ -20,19 +26,14 @@ export const adminRouter = createTRPCRouter({
         data: {
           ...input,
           userId: ctx.session.user.id,
+          refId: Math.random().toString(36).slice(6),
         },
       });
 
       return waitlist;
     }),
   editWaitlist: protectedProcedure
-    .input(
-      z.object({
-        id: z.string(),
-        name: z.string(),
-        websiteURL: z.string().optional(),
-      }),
-    )
+    .input(editWaitlistSchema)
     .mutation(async ({ ctx, input }) => {
       const waitlist = await ctx.db.waitlist.update({
         data: {

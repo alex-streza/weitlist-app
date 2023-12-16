@@ -20,6 +20,28 @@ import {
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { Button } from "~/components/ui/button";
+import { useForm } from "react-hook-form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "~/components/ui/form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const editWaitlistSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  websiteURL: z
+    .string()
+    .optional()
+    .refine((url) => {
+      return url?.match(/^(https):\/\/[^ "]+$/) ? true : false;
+    }, "Please enter a valid URL"),
+});
 
 export const Content = () => {
   const [filters, setFilters] = useState<{
@@ -52,6 +74,16 @@ export const Content = () => {
     });
   };
 
+  const form = useForm<z.infer<typeof editWaitlistSchema>>({
+    resolver: zodResolver(editWaitlistSchema),
+    mode: "onChange",
+    defaultValues: {
+      id: selectedWaitlist?.id ?? "",
+      name: selectedWaitlist?.name ?? "",
+      websiteURL: selectedWaitlist?.websiteURL ?? undefined,
+    },
+  });
+
   return (
     <div className="w-full pl-56 pr-5 pt-10">
       <h1 className="mb-10 flex items-center gap-3 text-3xl font-bold">
@@ -67,28 +99,63 @@ export const Content = () => {
                 Edit the name and website URL of your waitlist.
               </DialogDescription>
             </DialogHeader>
-            <div className="flex flex-col gap-5">
-              <Label className="flex flex-col gap-2">
-                <span>Name</span>
-                <Input placeholder="Name" />
-              </Label>
-              <Label className="flex flex-col gap-2">
-                <span>Website URL</span>
-                <Input placeholder="Website URL" />
-              </Label>
-              <Button
-                onClick={() =>
-                  editWaitlist.mutate({
-                    id: selectedWaitlist?.id ?? "",
-                    name: "test",
-                    websiteURL: "test",
-                  })
-                }
-                disabled={editWaitlist.isLoading}
+
+            <Form {...form}>
+              <form
+                className="flex flex-col gap-5"
+                onSubmit={form.handleSubmit((data) =>
+                  editWaitlist.mutate(data),
+                )}
               >
-                Save
-              </Button>
-            </div>
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Enter your name" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="websiteURL"
+                  rules={{
+                    pattern: {
+                      value: /^(https):\/\/[^ "]+$/,
+                      message: "Please enter a valid website URL",
+                    },
+                    // validate: (websiteURL) => {
+                    //   console.log("ag", websiteURL);
+                    //   return websiteURL?.match(/^(https):\/\/[^ "]+$/)
+                    //     ? true
+                    //     : false;
+                    // },
+                  }}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Website URL</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter your website url"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button
+                  type="submit"
+                  disabled={editWaitlist.isLoading || !form.formState.isValid}
+                >
+                  Save
+                </Button>
+              </form>
+            </Form>
           </DialogContent>
         </Dialog>
       </h1>

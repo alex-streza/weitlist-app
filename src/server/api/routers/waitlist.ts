@@ -1,4 +1,6 @@
+import { Entry } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
+import { count } from "console";
 import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
@@ -24,11 +26,14 @@ export const waitlistRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input: { refId, referralCode, ...input } }) => {
-      const referredEntry = await ctx.db.entry.findUnique({
-        where: {
-          referralCode,
-        },
-      });
+      let referredEntry: Entry | null = null;
+      if (referralCode) {
+        referredEntry = await ctx.db.entry.findUnique({
+          where: {
+            referralCode,
+          },
+        });
+      }
       const waitlist = await ctx.db.waitlist.findUnique({
         where: {
           refId,
@@ -47,10 +52,53 @@ export const waitlistRouter = createTRPCRouter({
           ...input,
           waitlistId: waitlist.id,
           referralCode: generateCode(6),
-          referrerId: referredEntry?.id,
+          // referrerId: referredEntry?.id,
+          ...(referredEntry
+            ? {
+                referrerId: referredEntry.id,
+              }
+            : {}),
         },
       });
-      console.log("entry", entry);
+      // console.log("wacwac", entry);
       return entry;
+    }),
+
+  getReferralInfo: publicProcedure
+    .input(
+      z.object({
+        referralCode: z.string(),
+      }),
+    )
+    .query(async ({ ctx, input: { referralCode } }) => {
+      const entry = await ctx.db.entry.findUnique({
+        where: {
+          referralCode,
+        },
+        include: { waitlist: true },
+      });
+      if (!entry) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Referral code not found",
+        });
+      }
+
+      const entriesCount = await ctx.db.entry.count({
+        where: {
+          waitlistId: entry.waitlistId,
+        },
+      });
+
+      const referrers = await ctx.db.entry.findMany({
+        where: {
+          referrerId: entry.id,
+        },
+      });
+      return {
+        entry,
+        entriesCount,
+        referrers,
+      };
     }),
 });

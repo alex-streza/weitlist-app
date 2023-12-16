@@ -9,7 +9,7 @@ import { Label } from "~/components/ui/label";
 import { env } from "~/env";
 import { useWaitlists } from "~/lib/use-waitlists";
 
-const CopyableInput = ({ defaultValue }: { defaultValue: string }) => {
+export const CopyableInput = ({ defaultValue }: { defaultValue: string }) => {
   const [value, copy] = useCopyToClipboard();
   const [copied, setCopied] = useState(false);
 
