@@ -6,8 +6,10 @@ import { useCopyToClipboard } from "usehooks-ts";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
+import { Textarea } from "~/components/ui/textarea";
 import { env } from "~/env";
 import { useWaitlists } from "~/lib/use-waitlists";
+import { api } from "~/trpc/react";
 
 const CopyableInput = ({ defaultValue }: { defaultValue: string }) => {
   const [value, copy] = useCopyToClipboard();
@@ -37,8 +39,10 @@ const CopyableInput = ({ defaultValue }: { defaultValue: string }) => {
 export const Content = () => {
   const { selectedWaitlist } = useWaitlists();
 
+  const upsertWaitlistForm = api.admin.upsertWaitlistForm.useMutation();
+
   return (
-    <div className="pl-60 pt-5 font-sans">
+    <div className="h-[100dvh] overflow-auto pl-60 pt-5 font-sans">
       <h1 className="mb-5 font-serif text-3xl font-bold">Integrations</h1>
       <p className="text-neutral-300">
         Your embed key is{" "}
@@ -56,8 +60,36 @@ export const Content = () => {
       <CopyableInput
         defaultValue={`<div class="weitlist-embed" data-key-id="${selectedWaitlist?.refId}"></div>`}
       />
-      <h2 className="mt-8">Preview</h2>
-      <div className="hash-gray mt-3 max-w-xs bg-neutral-900 p-4">
+      <h2 className="mb-2 mt-8 font-sans">Preview</h2>
+      <Textarea
+        className=" max-w-xs"
+        defaultValue={`{
+          buttonStyle: {},
+          inputStyle: {},
+          label: "Join our waitlist",
+          placeholder: "Enter your email",
+          buttonText: "Join"
+        }`}
+        rows={7}
+      />
+      <Button
+        className="mb-5 mt-3"
+        onClick={async () => {
+          if (selectedWaitlist?.id)
+            await upsertWaitlistForm.mutateAsync({
+              buttonStyle: {},
+              inputStyle: {},
+              label: "Join our waitlist",
+              placeholder: "Enter your email",
+              buttonText: "Join",
+              waitlistId: selectedWaitlist?.id,
+              id: undefined,
+            });
+        }}
+      >
+        Save
+      </Button>
+      <div className="hash-gray absolute right-0 top-0 mt-3 max-w-sm bg-neutral-900 p-4">
         <iframe
           src={`${env.NEXT_PUBLIC_FRONTEND_URL}/w/${selectedWaitlist?.refId}`}
           width="100%"

@@ -53,7 +53,7 @@ export const Content = () => {
   };
 
   return (
-    <div className="w-full pl-56 pr-5 pt-10">
+    <div className="w-full pl-5 pr-5 pt-10 md:pl-56">
       <h1 className="mb-10 flex items-center gap-3 text-3xl font-bold">
         Entries - {selectedWaitlist?.name}
         <Dialog>

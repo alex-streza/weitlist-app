@@ -42,11 +42,6 @@ const items = [
     icon: <PlugCharging />,
   },
   {
-    label: "Referral codes",
-    icon: <IdentificationCard />,
-    disabled: true,
-  },
-  {
     label: "Upgrade",
     icon: <Diamond />,
     disabled: true,
@@ -74,7 +69,7 @@ export const SideNavigation = ({
   };
 
   return (
-    <NavigationMenu className="fixed left-0 top-0 h-screen w-fit flex-col justify-start gap-8 bg-neutral-900 px-2 py-10 font-sans">
+    <NavigationMenu className="fixed left-0 top-0 hidden h-screen w-fit flex-col justify-start gap-8 bg-neutral-900 px-2 py-10 font-sans md:flex">
       <Link href="/" title="go to home page">
         <Logo />
       </Link>

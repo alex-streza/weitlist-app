@@ -103,7 +103,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
-      <div className="mb-5 flex w-full justify-between gap-10">
+      <div className="mb-5 flex w-full flex-wrap justify-between gap-5 md:gap-10">
         <div className="relative w-full max-w-[500px]">
           <Input
             placeholder="Filter by e-mail address, source, invite code or any other field"
@@ -112,7 +112,7 @@ export function DataTable<TData, TValue>({
           />
           <MagnifyingGlass className="absolute right-4 top-3 text-neutral-500" />
         </div>
-        <div className="flex gap-3">
+        <div className="flex flex-wrap gap-3">
           <Button
             variant="destructive"
             onClick={async () => {

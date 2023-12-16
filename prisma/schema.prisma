@@ -21,6 +21,8 @@ model Waitlist {
   refId     String?  @unique
   userId    String
 
+
+  waitlistForm WaitlistForm?
   user    User    @relation(fields: [userId], references: [id])
   entries Entry[]
 }
@@ -99,4 +101,17 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model WaitlistForm {
+  id          String  @id @default(cuid())
+  buttonStyle Json?
+  inputStyle  Json?
+  label      String?
+  placeholder String?
+  buttonText String?
+
+  waitlistId  String @unique
+
+  waitlist    Waitlist @relation(fields: [waitlistId], references: [id])
 }

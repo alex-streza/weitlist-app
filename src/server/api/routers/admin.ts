@@ -46,6 +46,40 @@ export const adminRouter = createTRPCRouter({
 
       return waitlist;
     }),
+  upsertWaitlistForm: protectedProcedure
+    .input(
+      z.object({
+        id: z.string().optional(),
+        buttonStyle: z.any(),
+        inputStyle: z.any(),
+        label: z.string(),
+        placeholder: z.string(),
+        buttonText: z.string(),
+        waitlistId: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      if (input.id) {
+        const waitlistForm = await ctx.db.waitlistForm.update({
+          data: {
+            ...input,
+          },
+          where: {
+            id: input.id,
+          },
+        });
+
+        return waitlistForm;
+      } else {
+        const waitlistForm = await ctx.db.waitlistForm.create({
+          data: {
+            ...input,
+          },
+        });
+
+        return waitlistForm;
+      }
+    }),
   deleteEntries: protectedProcedure
     .input(
       z.object({
