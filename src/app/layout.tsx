@@ -52,7 +52,7 @@ export default function RootLayout({
       <body>
         <TRPCReactProvider cookies={cookies().toString()}>
           <ClientLayout>
-            <main className="relative h-[100dvh] w-screen overflow-hidden bg-gray-950 text-white">
+            <main className="relative h-screen w-screen overflow-hidden bg-gray-950 text-white">
               {children}
             </main>
           </ClientLayout>

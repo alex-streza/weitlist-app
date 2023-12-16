@@ -1,7 +1,7 @@
 "use client";
 
 import { Spinner } from "@phosphor-icons/react";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
@@ -16,9 +16,6 @@ export const Content = ({ id }: { id: string }) => {
 
   const join = api.waitlist.join.useMutation({
     onSuccess: () => setEmail(""),
-  });
-  const { data } = api.waitlist.getForm.useQuery({
-    refId: id,
   });
 
   const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -36,21 +33,19 @@ export const Content = ({ id }: { id: string }) => {
         });
       }}
     >
-      <Label className="mb-2">{data?.buttonText ?? "Email"}</Label>
+      <Label className="mb-2">Email</Label>
       <Input
-        placeholder={"Enter your email to join the waitlist"}
+        placeholder="Enter your email address"
         className="mb-4"
         onChange={(e) => setEmail(e.target.value)}
         value={email}
         type="email"
-        style={data?.inputStyle}
       />
       <Button
         className="relative w-full"
         disabled={!validEmail || join.isLoading}
-        style={data?.buttonStyle}
       >
-        {data?.buttonText ?? "Submit"}{" "}
+        Submit{" "}
         {join.isLoading && (
           <Spinner
             className="absolute right-5 top-3 animate-spin"

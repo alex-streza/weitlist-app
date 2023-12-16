@@ -1,28 +1,68 @@
-# Create T3 App
+## Make SaaS Waitlists Simple & OpenSource
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+Weitlist is exatly what it says it is, a waitlist platform for your projects.
 
-## What's next? How do I make an app with this?
+https://weitlist.me
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+> **Note**
+>
+> This project is very EARLY on.
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+<sup>Made for Supabase Launch Week X Hackathon.</sup>
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+Built with
 
-## Learn More
+- [Supabase](https://supabase.com/)
+- [Vercel](https://vercel.com/)
+- [Resend](https://resend.com/) - SOON
+- [Next.JS](https://nextjs.org/)
+- [shadcn/ui](https://ui.shadcn.com/)
+- [TailwindCSS](https://tailwindcss.com/)
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+## How it works
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+> **Warning**
+>
+> Weit! Here's a guide
+>
+> First and foremost you'll need a Github account, I'll add other OAuth later on + email.
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+In a couple minutes you'll be able to create and embed your personal waitlist form for your side-project.
 
-## How do I deploy this?
+1. Connect with Github
+2. Create a new waitlist in the right side bar
+3. Edit name/website URL
+4. Copy the waitlist link and share with others
+5. Grab the embed code from Integrations page
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+The API is designed using TRPC and the OpenAPI version is not yet implemented (not OpenAI!!!), it uses prisma as ORM over a Supabase database.
+
+List of Supabase features used:
+
+- Database
+  - storing all table data (users, accounts, waitlist, entries & more)
+- More coming soon
+
+## Motivation
+
+When I was working at morrow.to landing page I found myself spending literal hours making a decent waitlist experience, when I heard Supabase Launch Week X is coming I knew I had to act on that need. I know there are several other waitlist SaaS (extremely powerful and more feature rich), but I'll try my best to evolve weitlist.me as an open-source competitor.
+
+## Disclaimer
+
+This project is usable, but far from complete, I had a lot more features planned to be ready before I open-sourced it but I had a hectic week, my phone got stolen and I had to travel 250km to get it back and the following day I had to have my appendix removed out of the blue. Not a sob story to gain extra awareness but I feel bad for not rising to the expectations and target I set myself.
+
+## Ideas for the future
+
+- Fix weitlit edit dialog precomplete
+- Turn the JSON styles into no-code fields
+- Create weitlist templates
+- Allow API access
+- Use more Supabase because it's cool
+
+## The team / contributors
+
+- alex-streza ([GitHub](https://github.com/alex-streza), [Twitter](https://twitter.com/alex_streza))
+
+## Thanks to
+
+- [laznic](https://github.com/laznic) [GetLaunchlist](https://getlaunchlist.com/) was the website I got the most inspiration from (mainly features)

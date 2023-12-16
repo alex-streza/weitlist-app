@@ -53,25 +53,4 @@ export const waitlistRouter = createTRPCRouter({
       console.log("entry", entry);
       return entry;
     }),
-  getForm: publicProcedure
-    .input(z.object({ refId: z.string() }))
-    .query(async ({ ctx, input }) => {
-      const waitlist = await ctx.db.waitlist.findUnique({
-        where: {
-          refId: input.refId,
-        },
-        include: {
-          waitlistForm: true,
-        },
-      });
-
-      if (!waitlist) {
-        throw new TRPCError({
-          code: "NOT_FOUND",
-          message: "Waitlist not found",
-        });
-      }
-
-      return waitlist.waitlistForm;
-    }),
 });
