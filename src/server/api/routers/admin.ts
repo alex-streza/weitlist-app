@@ -1,15 +1,11 @@
 import { z } from "zod";
 
-import {
-  createTRPCRouter,
-  protectedProcedure,
-  publicProcedure,
-} from "~/server/api/trpc";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const editWaitlistSchema = z.object({
   id: z.string(),
   name: z.string(),
-  websiteURL: z.string().optional(),
+  websiteURL: z.string(),
 });
 
 export const adminRouter = createTRPCRouter({

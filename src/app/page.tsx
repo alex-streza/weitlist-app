@@ -81,7 +81,7 @@ export default function Home() {
         {features.map((tag, i) => (
           <span
             key={i}
-            className="item flex w-fit shrink-0 flex-row items-center gap-4 px-2 py-4 font-serif text-lg uppercase md:text-xl"
+            className="item flex w-fit shrink-0 flex-row items-center gap-4 px-2 py-4 font-serif uppercase md:text-3xl lg:text-5xl"
           >
             {tag}
             <div className="h-2 w-2 bg-white"></div>
@@ -119,7 +119,7 @@ export default function Home() {
           ].map((word, index) => (
             <div
               key={index}
-              className="item flex w-[60] items-center  justify-between gap-3 text-3xl font-medium text-zinc-300"
+              className="item flex w-[60] items-center justify-between  gap-3 font-serif text-3xl font-medium text-zinc-300"
             >
               <span>{word}</span>
               <span className="border-neutral-700 bg-neutral-800 px-3 py-1.5 font-sans text-xs text-neutral-300">

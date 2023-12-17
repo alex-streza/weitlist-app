@@ -35,12 +35,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 const editWaitlistSchema = z.object({
   id: z.string(),
   name: z.string(),
-  websiteURL: z
-    .string()
-    .optional()
-    .refine((url) => {
-      return url?.match(/^(https):\/\/[^ "]+$/) ? true : false;
-    }, "Please enter a valid URL"),
+  websiteURL: z.string().refine((url) => {
+    return url?.match(/^(https):\/\/[^ "]+$/) ? true : false;
+  }, "Please enter a valid URL"),
 });
 
 export const Content = () => {
@@ -85,7 +82,7 @@ export const Content = () => {
   });
 
   return (
-    <div className="w-full pl-56 pr-5 pt-10">
+    <div className="w-full pl-5 pr-5 pt-20 md:pl-56 md:pt-10">
       <h1 className="mb-10 flex items-center gap-3 text-3xl font-bold">
         Entries - {selectedWaitlist?.name}
         <Dialog>
@@ -128,12 +125,6 @@ export const Content = () => {
                       value: /^(https):\/\/[^ "]+$/,
                       message: "Please enter a valid website URL",
                     },
-                    // validate: (websiteURL) => {
-                    //   console.log("ag", websiteURL);
-                    //   return websiteURL?.match(/^(https):\/\/[^ "]+$/)
-                    //     ? true
-                    //     : false;
-                    // },
                   }}
                   render={({ field }) => (
                     <FormItem>

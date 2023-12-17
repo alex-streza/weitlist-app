@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,19 +7,23 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Waitlist {
-  id          String  @id @default(cuid())
-  name        String
-  description String?
-  websiteURL  String?
+model Account {
+  id                       String  @id
+  userId                   String
+  type                     String
+  provider                 String
+  providerAccountId        String
+  refresh_token            String?
+  access_token             String?
+  expires_at               Int?
+  token_type               String?
+  scope                    String?
+  id_token                 String?
+  session_state            String?
+  refresh_token_expires_in Int?
+  User                     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  refId     String?  @unique
-  userId    String
-
-  user    User    @relation(fields: [userId], references: [id])
-  entries Entry[]
+  @@unique([provider, providerAccountId])
 }
 
 model Entry {
@@ -36,67 +37,69 @@ model Entry {
   lastName     String?
   phone        String?
   metadata     Json?
-
-  referrerId Int?
-  referrer   Entry? @relation("Referrals", fields: [referrerId], references: [id])
-
-  referees Entry[] @relation("Referrals")
-
-  waitlistId String
-  waitlist   Waitlist @relation(fields: [waitlistId], references: [id])
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-enum EntryType {
-  JOINED
-  INVITED
-}
-
-// Necessary for Next auth
-model Account {
-  id                String  @id @default(cuid())
-  userId            String
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String? // @db.Text
-  access_token      String? // @db.Text
-  expires_at        Int?
-  refresh_token_expires_in Int?
-  token_type        String?
-  scope             String?
-  id_token          String? // @db.Text
-  session_state     String?
-  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([provider, providerAccountId])
+  referrerId   Int?
+  waitlistId   String
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime
+  Entry        Entry?    @relation("EntryToEntry", fields: [referrerId], references: [id])
+  other_Entry  Entry[]   @relation("EntryToEntry")
+  Waitlist     Waitlist  @relation(fields: [waitlistId], references: [id])
 }
 
 model Session {
-  id           String   @id @default(cuid())
+  id           String   @id
   sessionToken String   @unique
   userId       String
   expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  User         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
-  id            String     @id @default(cuid())
-  name          String?
-  email         String?    @unique
-  emailVerified DateTime?
-  image         String?
+  id                 String     @id
+  name               String?
+  email              String?    @unique
+  emailVerified      DateTime?
+  image              String?
   selectedWaitlistId String?
-  accounts      Account[]
-  sessions      Session[]
-  waitlists     Waitlist[]
+  Account            Account[]
+  Session            Session[]
+  Waitlist           Waitlist[]
 }
+
 model VerificationToken {
   identifier String
   token      String   @unique
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Waitlist {
+  id           String        @id
+  name         String
+  description  String?
+  websiteURL   String?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime
+  refId        String?       @unique
+  userId       String
+  Entry        Entry[]
+  User         User          @relation(fields: [userId], references: [id])
+  WaitlistForm WaitlistForm?
+}
+
+model WaitlistForm {
+  id          String   @id
+  buttonStyle Json?
+  inputStyle  Json?
+  label       String?
+  placeholder String?
+  buttonText  String?
+  waitlistId  String   @unique
+  Waitlist    Waitlist @relation(fields: [waitlistId], references: [id])
+}
+
+enum EntryType {
+  JOINED
+  INVITED
 }

@@ -47,12 +47,22 @@ export const waitlistRouter = createTRPCRouter({
         });
       }
 
+      const existingEntry = await ctx.db.entry.findUnique({
+        where: {
+          waitlistId: waitlist.id,
+          email: input.email,
+        },
+      });
+
+      if (existingEntry) {
+        return existingEntry;
+      }
+
       const entry = await ctx.db.entry.create({
         data: {
           ...input,
           waitlistId: waitlist.id,
           referralCode: generateCode(6),
-          // referrerId: referredEntry?.id,
           ...(referredEntry
             ? {
                 referrerId: referredEntry.id,
@@ -60,7 +70,7 @@ export const waitlistRouter = createTRPCRouter({
             : {}),
         },
       });
-      // console.log("wacwac", entry);
+
       return entry;
     }),
 
@@ -99,6 +109,42 @@ export const waitlistRouter = createTRPCRouter({
         entry,
         entriesCount,
         referrers,
+      };
+    }),
+  getWaitlist: publicProcedure
+    .input(
+      z.object({
+        refId: z.string(),
+      }),
+    )
+    .query(async ({ ctx, input: { refId } }) => {
+      const waitlist = await ctx.db.waitlist.findUnique({
+        where: {
+          refId,
+        },
+        select: {
+          name: true,
+          refId: true,
+          description: true,
+          websiteURL: true,
+        },
+      });
+      if (!waitlist) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Waitlist not found",
+        });
+      }
+
+      const entriesCount = await ctx.db.entry.count({
+        where: {
+          waitlistId: waitlist.id,
+        },
+      });
+
+      return {
+        waitlist,
+        entriesCount,
       };
     }),
 });

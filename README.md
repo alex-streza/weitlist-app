@@ -49,7 +49,7 @@ When I was working at morrow.to landing page I found myself spending literal hou
 
 ## Disclaimer
 
-This project is usable, but far from complete, I had a lot more features planned to be ready before I open-sourced it but I had a hectic week, my phone got stolen and I had to travel 250km to get it back and the following day I had to have my appendix removed out of the blue. Not a sob story to gain extra awareness but I feel bad for not rising to the expectations and target I set myself.
+This project is usable, but far from complete, I had a lot more features planned to be ready before I open-sourced it but I had a hectic week, my phone got stolen and I had to travel 250km to get it back and the following day I had to have my appendix removed out of the blue. Not a sob story to gain extra awareness but I feel bad for not rising to the expectations and target I set for myself.
 
 ## Ideas for the future
 
@@ -62,7 +62,8 @@ This project is usable, but far from complete, I had a lot more features planned
 ## The team / contributors
 
 - alex-streza ([GitHub](https://github.com/alex-streza), [Twitter](https://twitter.com/alex_streza))
+- catalina ([GitHub](https://github.com/welnic), [Twitter](https://twitter.com/Catalina_Melnic)
 
 ## Thanks to
 
-- [laznic](https://github.com/laznic) [GetLaunchlist](https://getlaunchlist.com/) was the website I got the most inspiration from (mainly features)
+- [laznic](https://github.com/laznic) [GetLaunchlist](https://getlaunchlist.com/) was the website I got the most inspiration from (mainly features)- [cata](https://twitter.com/Catalina_Melnic) for standing by my side and coding in my place when I had the IV in and couldn't code

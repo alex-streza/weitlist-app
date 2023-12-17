@@ -74,37 +74,39 @@ export const SideNavigation = ({
   };
 
   return (
-    <NavigationMenu className="fixed left-0 top-0 h-screen w-fit flex-col justify-start gap-8 bg-neutral-900 px-2 py-10 font-sans">
-      <Link href="/" title="go to home page">
-        <Logo />
-      </Link>
-      <Select
-        value={selectedWaitlist?.id}
-        disabled={createWaitlist.isLoading}
-        onValueChange={(id) =>
-          id === "new"
-            ? handleCreateWaitlist()
-            : selectWaitlist.mutate({
-                id,
-              })
-        }
-      >
-        <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="Pick a waitlist" />
-        </SelectTrigger>
-        <SelectContent>
-          {waitlists?.map((waitlist) => (
-            <SelectItem key={waitlist.id} value={waitlist.id}>
-              {waitlist.name}
+    <NavigationMenu className="fixed left-0 top-0 w-screen flex-row gap-8 bg-neutral-900 px-2 py-5 font-sans md:h-screen md:w-fit md:flex-col md:justify-start md:py-10">
+      <div className="flex flex-col gap-5">
+        <Link href="/" title="go to home page">
+          <Logo />
+        </Link>
+        <Select
+          value={selectedWaitlist?.id}
+          disabled={createWaitlist.isLoading}
+          onValueChange={(id) =>
+            id === "new"
+              ? handleCreateWaitlist()
+              : selectWaitlist.mutate({
+                  id,
+                })
+          }
+        >
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Pick a waitlist" />
+          </SelectTrigger>
+          <SelectContent>
+            {waitlists?.map((waitlist) => (
+              <SelectItem key={waitlist.id} value={waitlist.id}>
+                {waitlist.name}
+              </SelectItem>
+            ))}
+            <SelectItem value="new" className="font-bold">
+              <Plus className="absolute left-2 top-2" size={16} weight="bold" />
+              New waitlist
             </SelectItem>
-          ))}
-          <SelectItem value="new" className="font-bold">
-            <Plus className="absolute left-2 top-2" size={16} weight="bold" />
-            New waitlist
-          </SelectItem>
-        </SelectContent>
-      </Select>
-      <NavigationMenuList className="h-full w-[180px] flex-col items-start gap-1 space-x-0">
+          </SelectContent>
+        </Select>
+      </div>
+      <NavigationMenuList className="h-full w-[180px] flex-wrap items-start gap-1 space-x-0 md:flex-none md:flex-col">
         {items.map(({ label, icon, disabled }, index) => (
           <NavigationMenuItem
             key={index}
@@ -117,7 +119,7 @@ export const SideNavigation = ({
             <NavigationMenuLink
               className={cn(
                 "flex items-center gap-2 px-3 py-2",
-                disabled && "pointer-events-none opacity-50",
+                disabled && "pointer-events-none hidden opacity-50 md:flex",
               )}
               href={`/admin/${label.toLowerCase().replace(" ", "-")}`}
             >
@@ -130,7 +132,7 @@ export const SideNavigation = ({
       <NavigationMenuItem
         className={cn(
           navItemClassName,
-          "mt-auto flex cursor-pointer list-none items-center gap-2 px-3 py-2",
+          "flex cursor-pointer list-none items-center gap-2 px-3 py-2 md:mt-auto",
         )}
         onClick={() =>
           signOut({
