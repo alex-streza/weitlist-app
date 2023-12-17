@@ -53,11 +53,11 @@ This project is usable, but far from complete, I had a lot more features planned
 
 ## Ideas for the future
 
-- Fix weitlit edit dialog precomplete
-- Turn the JSON styles into no-code fields
+- Add no-code fields to add branding to join form
 - Create weitlist templates
 - Allow API access
 - Use more Supabase because it's cool
+- Improve mobile version
 
 ## The team / contributors
 
