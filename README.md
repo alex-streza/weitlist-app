@@ -1,4 +1,5 @@
-## Make SaaS Waitlists Simple & OpenSource
+## ![682shots_so](https://github.com/alex-streza/weitlist-app/assets/72100849/95926bc8-49aa-4941-89a7-b8450df05160)
+Make SaaS Waitlists Simple & OpenSource
 
 Weitlist is exatly what it says it is, a waitlist platform for your projects.
 
