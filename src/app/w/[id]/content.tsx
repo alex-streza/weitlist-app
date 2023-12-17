@@ -113,14 +113,14 @@ export const Content = ({ id }: { id: string }) => {
             Refer your friends and move up the list
           </p>
           <CopyableInput
-            defaultValue={`https://${data?.entry.websiteURL}?ref=${ref}`}
+            defaultValue={`https://${waitlistData?.waitlist?.websiteURL}?ref=${ref}`}
           />
           <div className="mt-8 flex gap-5">
             <a
               href={`https://twitter.com/intent/tweet?text=${encodeURI(
-                `I justjoined ${data?.entry.waitlist.name}!`,
+                `I just joined ${data?.entry.waitlist.name}!`,
               )}&url=${encodeURI(
-                `https://${data?.entry.websiteURL}?ref=${ref}`,
+                `${data?.entry.waitlist.websiteURL}?ref=${ref}`,
               )}`}
               target="_blank"
               rel="noopener noreferrer"

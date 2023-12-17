@@ -75,8 +75,8 @@ export const SideNavigation = ({
 
   return (
     <NavigationMenu className="fixed left-0 top-0 w-screen flex-row gap-8 bg-neutral-900 px-2 py-5 font-sans md:h-screen md:w-fit md:flex-col md:justify-start md:py-10">
-      <div className="flex flex-col gap-5">
-        <Link href="/" title="go to home page">
+      <div className="flex flex-col gap-5 md:gap-10">
+        <Link href="/" title="go to home page" className="w-40">
           <Logo />
         </Link>
         <Select

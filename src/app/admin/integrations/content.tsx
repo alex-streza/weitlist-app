@@ -57,10 +57,11 @@ export const Content = () => {
         defaultValue={`<div class="weitlist-embed" data-key-id="${selectedWaitlist?.refId}"></div>`}
       />
       <h2 className="mt-8">Preview</h2>
-      <div className="hash-gray mt-3 max-w-xs bg-neutral-900 p-4">
+      <div className="hash-gray w-[400px] h-[400px] mt-3 max-w-xs bg-neutral-900 p-4">
         <iframe
           src={`${env.NEXT_PUBLIC_FRONTEND_URL}/w/${selectedWaitlist?.refId}`}
           width="100%"
+          height="100%"
         ></iframe>
       </div>
     </div>
