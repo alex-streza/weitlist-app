@@ -4,7 +4,8 @@ import localFont from "next/font/local";
 import { DM_Sans } from "next/font/google";
 import { cookies } from "next/headers";
 import { TRPCReactProvider } from "~/trpc/react";
-import { ClientLayout } from "./_components/client-layout";
+import { ClientLayout, PostHogPageview } from "./_components/client-layout";
+import { Suspense } from "react";
 
 const dm_sans = DM_Sans({
   subsets: ["latin"],
@@ -50,6 +51,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`dark ${offbit.variable} ${dm_sans.variable}`}>
       <body>
+        <Suspense>
+          <PostHogPageview />
+        </Suspense>
         <TRPCReactProvider cookies={cookies().toString()}>
           <ClientLayout>
             <main className="relative h-screen w-screen overflow-hidden bg-gray-950 text-white">
