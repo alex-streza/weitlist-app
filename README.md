@@ -42,6 +42,8 @@ List of Supabase features used:
 
 - Database
   - storing all table data (users, accounts, waitlist, entries & more)
+- Storage
+  - will store bg images for waitlists
 - More coming soon
 
 ## Motivation
