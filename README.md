@@ -69,4 +69,5 @@ This project is usable, but far from complete, I had a lot more features planned
 
 ## Thanks to
 
-- [laznic](https://github.com/laznic) [GetLaunchlist](https://getlaunchlist.com/) was the website I got the most inspiration from (mainly features)- [cata](https://twitter.com/Catalina_Melnic) for standing by my side and coding in my place when I had the IV in and couldn't code
+- [GetLaunchlist](https://getlaunchlist.com/) was the website I got the most inspiration from (mainly features)
+- [cata](https://twitter.com/Catalina_Melnic) for standing by my side and coding in my place when I had the IV in and couldn't code
