@@ -1,8 +1,10 @@
-import { Entry } from "@prisma/client";
+import type { Entry } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
-import { count } from "console";
+import JoinedEmail from "react-email-starter/emails/joined";
 import { z } from "zod";
+import { env } from "~/env";
 
+import { Resend } from "resend";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 function generateCode(length: number) {
@@ -69,6 +71,21 @@ export const waitlistRouter = createTRPCRouter({
               }
             : {}),
         },
+      });
+
+      const resend = new Resend(env.RESEND_API_KEY);
+
+      await resend.emails.send({
+        from: "notifications@weitlist.me",
+        to: entry.email,
+        subject: "You're on the waitlist 🎉",
+        react: (
+          <JoinedEmail
+            name={entry.firstName ?? undefined}
+            link={`https://weitlist.me/w/${waitlist.refId}?user=${entry.referralCode}`}
+            regards={`The ${waitlist.name} team`}
+          />
+        ),
       });
 
       return entry;

@@ -21,18 +21,19 @@ import { Label } from "~/components/ui/label";
 import { api } from "~/trpc/react";
 
 export const Content = ({ id }: { id: string }) => {
-  const [joined, setJoined] = useState(false);
-  const [email, setEmail] = useState("");
-  const [ref, setRef] = useState("");
-
   const searchParams = useSearchParams();
   const referralCode = searchParams.get("ref");
+  const viewUserRef = searchParams.get("user");
+
+  const [joined, setJoined] = useState(viewUserRef ? true : false);
+  const [email, setEmail] = useState("");
+  const [ref, setRef] = useState(viewUserRef);
 
   const { data: waitlistData, isLoading } = api.waitlist.getWaitlist.useQuery({
     refId: id,
   });
   const { data } = api.waitlist.getReferralInfo.useQuery({
-    referralCode: ref,
+    referralCode: viewUserRef ? viewUserRef : ref,
   });
 
   const join = api.waitlist.join.useMutation({
@@ -113,7 +114,7 @@ export const Content = ({ id }: { id: string }) => {
             Refer your friends and move up the list
           </p>
           <CopyableInput
-            defaultValue={`https://${waitlistData?.waitlist?.websiteURL}?ref=${ref}`}
+            defaultValue={`${waitlistData?.waitlist?.websiteURL}?ref=${ref}`}
           />
           <div className="mt-8 flex gap-5">
             <a
@@ -130,19 +131,19 @@ export const Content = ({ id }: { id: string }) => {
             </a>
             {/* <a
               href=""
-              className="flex w-fit items-center gap-2 bg-green-500 px-4 py-2"
+              className="flex items-center gap-2 px-4 py-2 bg-green-500 w-fit"
             >
               Share <WhatsappLogo />
             </a>
             <a
               href=""
-              className="flex w-fit items-center gap-2 bg-blue-800 px-4 py-2"
+              className="flex items-center gap-2 px-4 py-2 bg-blue-800 w-fit"
             >
               Share <FacebookLogo />
             </a>
             <a
               href=""
-              className="flex w-fit items-center gap-2 bg-blue-700 px-4 py-2"
+              className="flex items-center gap-2 px-4 py-2 bg-blue-700 w-fit"
             >
               Share <LinkedinLogo />
             </a> */}
